@@ -19,8 +19,10 @@ jobs:
           python3 -m pip install pywinrm pywinrm[credssp]
 
       - name: Verify Ansible Installation
-        run: ansible --version
+        run: |
+          ansible --version
 
       - name: Run Ansible Playbook
-        run: ansible-playbook -i ./Ansible/hosts.ini playbook.yml -vvv
+        run: |
+          ansible-playbook -i ./Ansible/hosts.ini playbook.yml -vvv
 
