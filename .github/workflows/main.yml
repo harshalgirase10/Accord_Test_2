@@ -14,9 +14,9 @@ jobs:
       - name: Install Ansible and Dependencies
         run: |
           sudo apt update
-          sudo apt install -y ansible
+          sudo apt install -y ansible python3-pip
           python3 -m pip install --upgrade pip
-          python3 -m pip install pywinrm pywinrm[credssp]
+          python3 -m pip install pywinrm pywinrm[credssp] requests
 
       - name: Verify Ansible Installation
         run: |
@@ -25,5 +25,3 @@ jobs:
       - name: Run Ansible Playbook
         run: |
           ansible-playbook -i ./Ansible/hosts.ini ./Ansible/playbook.yaml -vvv
-
-
