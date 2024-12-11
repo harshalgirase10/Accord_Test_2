@@ -1,11 +1,10 @@
 - name: Create a Test File on Windows
   hosts: stg
-  become: yes
-  gather_facts: yes
+  gather_facts: no
 
   tasks:
     - name: Create a test file
       win_file:
-        path: "C:\testfile.txt"
-        state: present
-        contents: "This is a test file created by Ansible"
+        path: C:\testfile.txt
+        state: touch
+        content: "This is a test file created by Ansible"
