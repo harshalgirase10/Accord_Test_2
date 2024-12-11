@@ -18,6 +18,10 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install pywinrm pywinrm[credssp] requests
 
+      - name: Verify Installed Python Modules
+        run: |
+          python3 -m pip list | grep -E "pywinrm|requests"
+
       - name: Verify Ansible Installation
         run: |
           ansible --version
