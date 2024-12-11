@@ -1,0 +1,17 @@
+name: Ansible Playbook Execution
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-ansible-playbook:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Ansible
+        uses: ansible/ansible-action@v2
+        with:
+          ansible-version: 'latest'
+      - name: Run Ansible Playbook
+        run: ansible-playbook -i inventory.ini playbook.yml
