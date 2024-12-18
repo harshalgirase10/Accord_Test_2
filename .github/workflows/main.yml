@@ -1,41 +1,28 @@
-name: Ansible Playbook Execution
+name: Execute Ansible Playbook
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  run-ansible-playbook:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Install Ansible and Dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y ansible python3-pip
-          python3 -m pip install --upgrade pip
-          python3 -m pip install pywinrm pywinrm[credssp] requests
-          python3 -m pip install ansible
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
 
-      - name: Configure Ansible Python Interpreter
-        run: |
-          echo 'localhost ansible_python_interpreter=/usr/bin/python3' >> ./Ansible/hosts.ini
+    - name: Install Ansible and dependencies
+      run: |
+        pip install ansible pywinrm requests requests-ntlm requests-credssp
 
-      - name: Verify Installed Python Modules
-        run: |
-          python3 -m pip list | grep -E "pywinrm|requests"
-
-      - name: Verify Ansible Installation
-        run: |
-          ansible --version
-
-      - name: Debug Ansible Environment
-        run: |
-          ansible localhost -m setup | grep ansible_python
-
-      - name: Run Ansible Playbook
-        run: |
-          ansible -i ./Ansible/hosts.ini windows -m ansible.windows.win_ping -vvv
-
+    - name: Execute Ansible Playbook
+      run: |
+        ansible-playbook -i ./Ansible/hosts.ini ./Ansible/playbook.yaml -vvv
