@@ -19,6 +19,10 @@ jobs:
           python3 -m pip install pywinrm pywinrm[credssp] requests
           python3 -m pip install ansible
 
+      - name: Configure Ansible Python Interpreter
+        run: |
+          echo 'localhost ansible_python_interpreter=/usr/bin/python3' >> ./Ansible/hosts.ini
+
       - name: Verify Installed Python Modules
         run: |
           python3 -m pip list | grep -E "pywinrm|requests"
@@ -26,6 +30,10 @@ jobs:
       - name: Verify Ansible Installation
         run: |
           ansible --version
+
+      - name: Debug Ansible Environment
+        run: |
+          ansible localhost -m setup | grep ansible_python
 
       - name: Run Ansible Playbook
         run: |
