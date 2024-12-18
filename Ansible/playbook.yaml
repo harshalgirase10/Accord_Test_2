@@ -1,8 +1,14 @@
 ---
-- name: Create a Test File on Windows
+- name: Create a test file on a remote Windows host
   hosts: windows
   tasks:
-    - name: Create a test file in C:\Temp
-      ansible.windows.win_file:
-        path: C:\Temp\test.txt
-        state: touch
+
+      - name: Ensure the target directory exists
+        ansible.windows.win_file:
+            path: C:\TestDirectory
+            state: directory
+
+      - name: Create a test file
+        ansible.windows.win_copy:
+          content: "This is a test file created by Ansible. | this is from action"
+          dest: C:\TestDirectory\testfile.txt
