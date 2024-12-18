@@ -37,4 +37,5 @@ jobs:
 
       - name: Run Ansible Playbook
         run: |
-          ansible-playbook -i ./Ansible/hosts.ini ./Ansible/playbook.yaml -vvv --extra-vars "ansible_pipelining=False"
+          ansible -i ./Ansible/hosts.ini windows -m ansible.windows.win_ping -vvv
+
